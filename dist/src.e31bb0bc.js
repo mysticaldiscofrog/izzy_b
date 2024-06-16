@@ -38065,7 +38065,7 @@ var scene = new THREE.Scene();
 
 // Create a camera
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 10;
+camera.position.z = 15;
 
 // Create the renderer
 var renderer = new THREE.WebGLRenderer();
@@ -38083,33 +38083,83 @@ function createCube(size, color, position) {
   return cube;
 }
 
+// Generate colors similar to #612424
+var colors = [0x612424, 0x7A3535, 0x913F3F, 0xB34F4F, 0xCC5F5F, 0x994848, 0x7A3E3E, 0x664242, 0x8B5757, 0xA46262, 0xB77474, 0xD68B8B];
+
 // Create multiple cubes
-var cubes = [createCube(1, 0x00ff00, {
-  x: -2,
-  y: 2,
+var cubes = [createCube(1, colors[0], {
+  x: -4,
+  y: 4,
   z: 0
-}), createCube(1.5, 0xff0000, {
-  x: 2,
-  y: -2,
+}), createCube(1.2, colors[1], {
+  x: 4,
+  y: -4,
   z: 0
-}), createCube(0.75, 0x0000ff, {
-  x: -2,
-  y: -2,
+}), createCube(0.8, colors[2], {
+  x: -4,
+  y: -4,
   z: 0
-}), createCube(1.25, 0xffff00, {
-  x: 2,
-  y: 2,
+}), createCube(1.5, colors[3], {
+  x: 4,
+  y: 4,
   z: 0
-}), createCube(1, 0xff00ff, {
+}), createCube(1, colors[4], {
   x: 0,
   y: 0,
   z: 0
+}), createCube(1.3, colors[5], {
+  x: -2,
+  y: 2,
+  z: -3
+}), createCube(0.9, colors[6], {
+  x: 2,
+  y: -2,
+  z: 3
+}), createCube(1.4, colors[7], {
+  x: -3,
+  y: -2,
+  z: 2
+}), createCube(1.1, colors[8], {
+  x: 3,
+  y: 2,
+  z: -2
+}), createCube(0.7, colors[9], {
+  x: -1,
+  y: 3,
+  z: -3
+}), createCube(1.6, colors[10], {
+  x: 1,
+  y: -3,
+  z: 3
+}), createCube(1.25, colors[11], {
+  x: -3,
+  y: 1,
+  z: 3
 })];
 
 // Add the cubes to the scene
 cubes.forEach(function (cube) {
   return scene.add(cube);
 });
+
+// Create a gradient background using a canvas
+var canvas = document.createElement('canvas');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+var context = canvas.getContext('2d');
+
+// Create a gradient
+var gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+gradient.addColorStop(0, '#612424');
+gradient.addColorStop(1, '#000000');
+
+// Fill the canvas with the gradient
+context.fillStyle = gradient;
+context.fillRect(0, 0, canvas.width, canvas.height);
+
+// Use the canvas as a texture
+var backgroundTexture = new THREE.CanvasTexture(canvas);
+scene.background = backgroundTexture;
 
 // Animation loop
 function animate() {
@@ -38127,6 +38177,16 @@ window.addEventListener('resize', function () {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Update the gradient background on resize
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
+  gradient.addColorStop(0, '#612424');
+  gradient.addColorStop(1, '#000000');
+  context.fillStyle = gradient;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  backgroundTexture.needsUpdate = true;
 });
 },{"three":"../node_modules/three/build/three.module.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -38153,7 +38213,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45439" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41563" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
